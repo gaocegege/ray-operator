@@ -1,0 +1,7 @@
+version: "2"
+domain: k8s.io
+repo: github.com/gaocegege/ray-operator
+resources:
+- group: ray
+  version: v1alpha1
+  kind: Ray

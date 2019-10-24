@@ -1,0 +1,12 @@
+apiVersion: ray.k8s.io/v1alpha1
+kind: Ray
+metadata:
+  name: ray-sample
+  namespace: ray
+spec:
+  minWorkers: 1
+  maxWorkers: 2
+  initialWorkers: 1
+  autoScalingMode: default
+  targetUtilization: 80
+  idleTimeoutMinutes: 60
