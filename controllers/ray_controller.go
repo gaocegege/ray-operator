@@ -65,7 +65,6 @@ func (r *RayReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 		return reconcile.Result{}, err
 	}
 	return r.reconcile(instance)
-	return ctrl.Result{}, nil
 }
 
 func (r *RayReconciler) SetupWithManager(mgr ctrl.Manager) error {

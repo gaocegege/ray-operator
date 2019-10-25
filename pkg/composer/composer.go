@@ -65,9 +65,9 @@ func (c composer) DesiredLauncher(ray *rayv1alpha1.Ray) (*appsv1.Deployment, err
 							Command: []string{
 								// TODO: Fix it, it is just a demo. We need to
 								// compose the yaml and use that one.
-								"ray",
-								"up",
-								"ray/python/ray/autoscaler/kubernetes/example-full.yaml",
+								"bash",
+								"-c",
+								`echo yes | ray up /ray/python/ray/autoscaler/kubernetes/example-full.yaml`,
 							},
 						},
 					},

@@ -22,12 +22,17 @@ import (
 
 // RaySpec defines the desired state of Ray
 type RaySpec struct {
-	MinWorkers         *int32       `json:"minWorkers,omitempty"`
-	MaxWorkers         *int32       `json:"maxWorkers,omitempty"`
-	InitialWorkers     *int32       `json:"initialWorkers,omitempty"`
-	AutoScalingMode    *ScalingMode `json:"autoScalingMode,omitempty"`
-	TargetUtilization  *int32       `json:"targetUtilization,omitempty"`
-	IdleTimeoutMinutes *int32       `json:"idleTimeoutMinutes,omitempty"`
+	MinWorkers         *int32                  `json:"minWorkers,omitempty"`
+	MaxWorkers         *int32                  `json:"maxWorkers,omitempty"`
+	InitialWorkers     *int32                  `json:"initialWorkers,omitempty"`
+	AutoScalingMode    *ScalingMode            `json:"autoScalingMode,omitempty"`
+	TargetUtilization  *int32                  `json:"targetUtilization,omitempty"`
+	IdleTimeoutMinutes *int32                  `json:"idleTimeoutMinutes,omitempty"`
+	Head               *corev1.PodTemplateSpec `json:"head,omitempty"`
+	Worker             *corev1.PodTemplateSpec `json:"worker,omitempty"`
+	// TODO(gaocegege): Add other configurations.
+
+	Configuration *string `json:"configuration,omitempty"`
 }
 
 // RayStatus defines the observed state of Ray
