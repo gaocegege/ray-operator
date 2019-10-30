@@ -1,6 +1,8 @@
 package composer
 
 import (
+	"fmt"
+
 	appsv1 "k8s.io/api/apps/v1"
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -19,6 +21,7 @@ const (
 // Composer is the interface for composer.
 type Composer interface {
 	DesiredLauncher(ray *rayv1alpha1.Ray) (*appsv1.Deployment, error)
+	DesiredConfigMap(ray *rayv1alpha1.Ray) (*corev1.ConfigMap, error)
 }
 
 type composer struct {
@@ -57,6 +60,18 @@ func (c composer) DesiredLauncher(ray *rayv1alpha1.Ray) (*appsv1.Deployment, err
 				Spec: corev1.PodSpec{
 					// TODO: Fix it, it is just a demo.
 					ServiceAccountName: "autoscaler",
+					Volumes: []corev1.Volume{
+						{
+							Name: consts.DefaultRayConfigMapVolume,
+							VolumeSource: corev1.VolumeSource{
+								ConfigMap: &corev1.ConfigMapVolumeSource{
+									LocalObjectReference: corev1.LocalObjectReference{
+										Name: ray.Name,
+									},
+								},
+							},
+						},
+					},
 					Containers: []corev1.Container{
 						{
 							Name:            consts.DefaultRayLauncherName,
@@ -67,7 +82,14 @@ func (c composer) DesiredLauncher(ray *rayv1alpha1.Ray) (*appsv1.Deployment, err
 								// compose the yaml and use that one.
 								"bash",
 								"-c",
-								`echo yes | ray up /ray/python/ray/autoscaler/kubernetes/example-full.yaml`,
+								fmt.Sprintf("echo yes | ray up %s", consts.DefaultRayConfigMapFilePath),
+							},
+							VolumeMounts: []corev1.VolumeMount{
+								{
+									Name:      consts.DefaultRayConfigMapVolume,
+									ReadOnly:  true,
+									MountPath: consts.DefaultRayConfigMapMountPath,
+								},
 							},
 						},
 					},

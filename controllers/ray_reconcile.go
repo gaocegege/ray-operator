@@ -7,6 +7,16 @@ import (
 )
 
 func (r *RayReconciler) reconcile(ray *rayv1alpha1.Ray) (ctrl.Result, error) {
+	cm, err := r.DesiredConfigMap(ray)
+	if err != nil {
+		return ctrl.Result{}, err
+	}
+
+	_, err = r.createOrUpdateConfigMap(ray, cm)
+	if err != nil {
+		return ctrl.Result{}, err
+	}
+
 	launcher, err := r.DesiredLauncher(ray)
 	if err != nil {
 		return ctrl.Result{}, err

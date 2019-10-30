@@ -13,6 +13,11 @@ const (
 	LabelRayLauncher = "ray-launcher"
 	LabelRay         = "ray"
 
-	DefaultRayImage        = "rayproject/autoscaler"
-	DefaultRayLauncherName = "ray-launcher"
+	DefaultRayImage              = "rayproject/autoscaler"
+	DefaultRayLauncherName       = "ray-launcher"
+	DefaultRayConfigMapFile      = "config.yaml"
+	DefaultRayConfigMapVolume    = "ray-config-volume"
+	DefaultRayConfigMapMountPath = "/etc/config/"
+	DefaultRayConfigMapFilePath  = DefaultRayConfigMapMountPath +
+		DefaultRayConfigMapFile
 )
